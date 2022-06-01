@@ -1,0 +1,9 @@
+.profile__subtitle {
+    max-width: 336px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #FFFFFF;
+}
