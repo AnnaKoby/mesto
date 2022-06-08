@@ -10,49 +10,80 @@
 </head>
 
 <body class="page">
+
     <header class="header">
         <img class="header__logo" src="./images/logo_mesto.svg" alt="Логотип Место">
     </header>
-    
+
     <main class="content">
         <section class="profile">
-            <div class="avatar">
-                <img class="avatar__foto" src="./images/foto-avatar.jpg" alt="Фото аватарка">
+            <div class="profile__block">
+                <div class="profile__avatar">
+                    <img class="profile__avatar-foto" src="./images/foto-avatar.jpg" alt="Аватарка">
+                </div>
+                <div class="profile__info">
+                    <div class="profile__container">
+                        <h1 class="profile__name">Жак-Ив Кусто</h1>
+                        <button type="button" class="profile__pen-button"></button>
+                    </div>
+                    <p class="profile__description">Исследователь океана</p>
+                </div>
             </div>
-            <div class="profile__info">
-                <h1 class="profile__title">Жак-Ив Кусто</h1>
-                <p class="profile__subtitle">Исследователь океана</p>
-            </div>
+            <button type="button" class="profile__add-button"></button>
         </section>
-        <section class="elements">
-            <article class="element">
-                <img class="element__grid" src="./images/karachaevsk.jpg" alt="Карачаевск">
-                <h2 class="element__title">Карачаевск</h2>
-            </article>
-            <article class="element">
-                <img class="element__grid" src="./images/elbrus.jpg" alt="Гора Эльбрус">
-                <h2 class="element__title">Гора Эльбрус</h2>
-            </article>
-            <article class="element">
-                <img class="element__grid" src="./images/dombay.jpg" alt="Домбай">
-                <h2 class="element__title">Домбай</h2>
-            </article>
-            <article class="element">
-                <img class="element__grid" src="./images/karachaevsk.jpg" alt="Карачаевск">
-                <h2 class="element__title">Карачаевск</h2>
-            </article>
-            <article class="element">
-                <img class="element__grid" src="./images/karachaevsk.jpg" alt="Карачаевск">
-                <h2 class="element__title">Карачаевск</h2>
-            </article>
-            <article class="element">
-                <img class="element__grid" src="./images/karachaevsk.jpg" alt="Карачаевск">
-                <h2 class="element__title">Карачаевск</h2>
-            </article>
+
+        <section class="elements-container">
+            <ul class="elements">
+                <li class="elements__card">
+                    <img class="elements__image" src="../mesto/images/udmurtia.jpg" alt="Удмуртия">
+                    <div class="elements__image-caption">
+                        <h2 class="elements__title">Удмуртия</h2>
+                        <button type="button" class="elements__like-button"></button>
+                    </div>
+                </li>
+                <li class="elements__card">
+                    <img class="elements__image" src="../mesto/images/izhevsk_stella.jpg" alt="Ижевск">
+                    <div class="elements__image-caption">
+                        <h2 class="elements__title">Ижевск</h2>
+                        <button type="button" class="elements__like-button"></button>
+                    </div>
+                </li>
+                <li class="elements__card">
+                    <img class="elements__image" src="../mesto/images/votkinsk_night_street.jpeg" alt="Воткинск">
+                    <div class="elements__image-caption">
+                        <h2 class="elements__title">Воткинск</h2>
+                        <button type="button" class="elements__like-button"></button>
+                    </div>
+                </li>
+                <li class="elements__card">
+                    <img class="elements__image" src="../mesto/images/sarapul_red_dom_bashenina.jpeg" alt="Сарапул">
+                    <div class="elements__image-caption">
+                        <h2 class="elements__title">Сарапул</h2>
+                        <button type="button" class="elements__like-button"></button>
+                    </div>
+                </li>
+                <li class="elements__card">
+                    <img class="elements__image" src="../mesto/images/glazov_eye_at_night.jpeg" alt="Глазов">
+                    <div class="elements__image-caption">
+                        <h2 class="elements__title">Глазов</h2>
+                        <button type="button" class="elements__like-button"></button>
+                    </div>
+                </li>
+                <li class="elements__card">
+                    <img class="elements__image" src="../mesto/images/mozhga.jpg" alt="Можга">
+                    <div class="elements__image-caption">
+                        <h2 class="elements__title">Можга</h2>
+                        <button type="button" class="elements__like-button"></button>
+                    </div>
+                </li>
+            </ul>
         </section>
     </main>
-    
-    <footer class="footer"></footer>
+
+    <footer class="footer">
+        <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
+    </footer>
 
 </body>
+
 </html>
