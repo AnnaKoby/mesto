@@ -8,6 +8,7 @@
     height: 24px;
     border: 1px solid #FFFFFF;
     padding: 0 0 0 0;
+    cursor: pointer;
 }
 
     .profile__pen-button:hover {

@@ -4,6 +4,13 @@
     padding-bottom: 60px;
 }
 
+@media screen and (max-width: 900px) {
+    .footer {
+        padding-left: 19px;
+        padding-right: 19px;
+    }
+}
+
 @media screen and (max-width: 767px) {
     .footer {
         width: 282px;
