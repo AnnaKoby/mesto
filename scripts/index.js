@@ -2,10 +2,19 @@ const button = document.querySelector('.profile__pen-button'); // перемен
 const popup = document.querySelector('.popup'); // переменная для обращения к окну попапа
 const popupCloseButton = document.querySelector('.popup__close-button'); // переменная для закрытия попапа
 const formElement = document.querySelector('.popup__form'); //переменная для доступа к элементам ввода в попапе
-const nameInput = document.querySelector('.popup__input-name'); //переменная для доступа к первой строке ввода
-const jobInput = document.querySelector('.popup__input-description'); //переменная для доступа ко второй строке ввода
+const nameInput = document.querySelector('.popup__input_type_name'); //переменная для доступа к первой строке ввода
+const jobInput = document.querySelector('.popup__input_type_description'); //переменная для доступа ко второй строке ввода
 const profileName = document.querySelector('.profile__name'); //переменная для доступа к месту отражения первой строки на странице
 const profileDescription = document.querySelector('.profile__description'); //переменная для доступа к месту отражения второй строки на странице
+
+// функция делающая попап невидимым
+function closePopup() {
+    popup.classList.remove('popup_opened');
+    popupCloseButton.removeEventListener('click', closePopup);
+    popup.removeEventListener('click', closePopupOnClick);
+    document.body.removeEventListener('keyup', closePopupOnEscape);
+    formElement.removeEventListener('submit', formSubmitHandler);
+}
 
 // Обработчик «отправки» формы
 function formSubmitHandler(evt) {
@@ -31,15 +40,10 @@ function closePopupOnClick(e) {
     }
 }
 
-// функция закрывающая попап, без дополнительных проверок
-function simpleClosePopup() {
-    closePopup();
-}
-
 //действия необходимые для открытия попапа
 function openPopup() {
     popup.classList.add('popup_opened');
-    popupCloseButton.addEventListener('click', simpleClosePopup);
+    popupCloseButton.addEventListener('click', closePopup);
     popup.addEventListener('click', closePopupOnClick);
     document.body.addEventListener('keyup', closePopupOnEscape);
     // Прикрепляем обработчик к форме:
@@ -48,15 +52,6 @@ function openPopup() {
     //установим значение полей ввода
     nameInput.value=profileName.textContent;
     jobInput.value=profileDescription.textContent;
-}
-
-// функция делающая попап невидимым
-function closePopup() {
-    popup.classList.remove('popup_opened');
-    popupCloseButton.removeEventListener('click', simpleClosePopup);
-    popup.removeEventListener('click', closePopupOnClick);
-    document.body.removeEventListener('keyup', closePopupOnEscape);
-    formElement.removeEventListener('submit', formSubmitHandler);
 }
 
 // открытие попап при нажатии на "карандаш"

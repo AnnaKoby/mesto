@@ -1,5 +1,5 @@
 @import url(../vendor/normalize.css);
-@import url(../vendor/fonts/fonts.css);
+@import url(../vendor/fonts.css);
 
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/__content/popup__content.css);
