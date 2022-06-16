@@ -14,7 +14,6 @@
 @import url(../blocks/header/__logo/header__logo.css);
 
 @import url(../blocks/profile/profile.css);
-@import url(../blocks/profile/__avatar-foto/profile__avatar-foto.css);
 @import url(../blocks/profile/__avatar/profile__avatar.css);
 @import url(../blocks/profile/__description/profile__description.css);
 @import url(../blocks/profile/__name/profile__name.css);
