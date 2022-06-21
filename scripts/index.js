@@ -7,6 +7,33 @@ const jobInput = document.querySelector('.popup__input_type_description'); //п�
 const profileName = document.querySelector('.profile__name'); //переменная для доступа к месту отражения первой строки на странице
 const profileDescription = document.querySelector('.profile__description'); //переменная для доступа к месту отражения второй строки на странице
 
+const initialCards = [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+  ];
+
 // функция делающая попап невидимым
 function closePopup() {
     popup.classList.remove('popup_opened');
@@ -58,3 +85,20 @@ function openPopup() {
 button.addEventListener('click', function () {
     openPopup();
 });
+
+
+function showContent() {
+    const cardElement = document.getElementsByTagName("template")[0];
+    const cardElementsNode = document.getElementsByClassName("elements")[0];
+    initialCards.forEach((currentCard) => {
+        let elementToAdd = cardElement.content.cloneNode(true);
+        elementToAdd.querySelector(".elements__title").outerText = currentCard.name;
+        elementToAdd.querySelector(".elements__image").src = currentCard.link;
+        elementToAdd.querySelector(".elements__image").alt = currentCard.name;
+        cardElementsNode.appendChild(elementToAdd);
+            
+    });
+
+}
+
+showContent();
