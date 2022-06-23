@@ -7,6 +7,7 @@ const jobInput = document.querySelector('.popup__input_type_description'); //п�
 const profileName = document.querySelector('.profile__name'); //переменная для доступа к месту отражения первой строки на странице
 const profileDescription = document.querySelector('.profile__description'); //переменная для доступа к месту отражения второй строки на странице
 
+
 const initialCards = [
     {
       name: 'Архыз',

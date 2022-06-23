@@ -2,7 +2,7 @@
     max-width: 282px;
     height: 361px;
     display: flex;
-    justify-content: center;
+    position: relative;
     flex-direction: column;
     background: #FFFFFF;
     border-radius: 10px;

@@ -1,0 +1,16 @@
+.elements__bin-button {
+    position: absolute;
+    background-image: url(../../../images/bin.svg);
+    background-color: transparent;
+    width: 18px;
+    height: 19px;
+    border: none;
+    padding: 0 0 0 0;
+    cursor: pointer;
+    right: 20px;
+    top: 20px;
+}
+
+.elements__bin-button:hover {
+    opacity: .5;
+}

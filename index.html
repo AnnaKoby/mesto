@@ -34,55 +34,14 @@
             <ul class="elements">
                 <template>
                     <li class="elements__card">
-                        <img class="elements__image" src="./images/udmurtia.jpg" alt="Удмуртия">
+                        <img class="elements__image" src="#" alt="#">
+                        <button type="button" class="elements__bin-button"></button>
                         <div class="elements__image-caption">
-                            <h2 class="elements__title">Удмуртия</h2>
+                            <h2 class="elements__title">#</h2>
                             <button type="button" class="elements__like-button"></button>
                         </div>
                     </li>
-                </template>                
-                <!-- <li class="elements__card">
-                    <img class="elements__image" src="./images/udmurtia.jpg" alt="Удмуртия">
-                    <div class="elements__image-caption">
-                        <h2 class="elements__title">Удмуртия</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
-                <li class="elements__card">
-                    <img class="elements__image" src="./images/izhevsk_stella.jpg" alt="Ижевск">
-                    <div class="elements__image-caption">
-                        <h2 class="elements__title">Ижевск</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
-                <li class="elements__card">
-                    <img class="elements__image" src="./images/votkinsk_night_street.jpeg" alt="Воткинск">
-                    <div class="elements__image-caption">
-                        <h2 class="elements__title">Воткинск</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
-                <li class="elements__card">
-                    <img class="elements__image" src="./images/sarapul_red_dom_bashenina.jpeg" alt="Сарапул">
-                    <div class="elements__image-caption">
-                        <h2 class="elements__title">Сарапул</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
-                <li class="elements__card">
-                    <img class="elements__image" src="./images/glazov_eye_at_night.jpeg" alt="Глазов">
-                    <div class="elements__image-caption">
-                        <h2 class="elements__title">Глазов</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
-                <li class="elements__card">
-                    <img class="elements__image" src="./images/mozhga.jpg" alt="Можга">
-                    <div class="elements__image-caption">
-                        <h2 class="elements__title">Можга</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li> -->
+                </template>
             </ul>
         </section>
     </main>
@@ -90,7 +49,7 @@
     <footer class="footer">
         <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup__profile-add">
         <div class="popup__content">
             <button type="button" class="popup__close-button"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
@@ -101,23 +60,23 @@
             </form>
         </div>
     </div>
-    <div class="popup">
+    <div class="popup popup__card-add">
         <div class="popup__content">
             <button type="button" class="popup__close-button"></button>
             <h2 class="popup__title">Новое место</h2>
             <form class="popup__form" name="popup">
-                <input class="popup__input popup__input_type_name" type="text" name="fullname">
-                <input class="popup__input popup__input_type_description" type="text" name="descriptionname">
+                <input class="popup__input popup__input_name" type="text" name="name">
+                <input class="popup__input popup__input_link" type="text" name="link">
                 <button type="submit" class="popup__save-button">Сохранить</button>
             </form>
         </div>
     </div>
-    <div class="popup">
+    <div class="popup popup__large-image">
         <div class="popup__content">
-
             <button type="button" class="popup__close-button"></button>
         </div>
     </div>
+
     <script src='./scripts/index.js'></script>
 </body>
 
