@@ -14,6 +14,9 @@ const newCardformElement = newCardpopup.querySelector('.popup__form');
 const newCardName = newCardpopup.querySelector('.popup__input_name');
 const newCardLink = newCardpopup.querySelector('.popup__input_link');
 
+const largeImagePopup = document.querySelector('.popup__large-image');
+const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');
+
 
 
 let cards = []; //хранение карточек на странице;
@@ -167,7 +170,6 @@ function likeButtonPress(evt) {
 }
 
 function deleteCard(element_id,likeElement) {
-  debugger;
   cardToDelete = cards.find((cardArrayElement) => cardArrayElement.id === element_id);
   if (cardToDelete != undefined) {
     cards.splice(cards.indexOf(cardToDelete),1);
@@ -184,6 +186,46 @@ function binButtonPress(evt) {
   deleteCard(evt.target.attributes.id.value.substr(3),evt.target)
 }
 
+function closeLargeImagePopup(e) {
+  largeImagePopup.classList.remove('popup_opened');
+  largeImagePopupCloseButton.removeEventListener('click', closeLargeImagePopup);
+  largeImagePopup.removeEventListener('click', closeNewCardPopupOnClick);
+  document.body.removeEventListener('keyup', closeLargeImagePopupOnEscape);
+}
+
+function closeLargeImagePopupOnEscape(e) {
+  if (e.key === 'Escape') {
+    closeLargeImagePopup();
+  }
+}
+
+function closeLargeImagePopupOnClick(e) {
+  if (e.target === e.currentTarget) {
+    closeLargeImagePopup();
+  }
+}
+
+function PreviewImageLarge(idOfElementToPreview) {
+  largeImagePopup.classList.add('popup_opened');
+  largeImagePopupCloseButton.addEventListener('click', closeLargeImagePopup);
+  largeImagePopup.addEventListener('click', closeLargeImagePopupOnClick);
+  document.body.addEventListener('keyup', closeLargeImagePopupOnEscape);
+  imagePreview = largeImagePopup.querySelector(".popup__large-image-preview");
+  imageCaption = largeImagePopup.querySelector(".popup__image-title");
+  card = cards.find((el) => el.id === idOfElementToPreview);
+  if (card != undefined) {
+    imagePreview.src = card.link;
+    imagePreview.alt = card.name;
+    imageCaption.innerText = card.name;
+  }
+  
+}
+
+function largeImagePress(evt) {
+  idOfElement = evt.target.parentElement.id.substr(4);
+  PreviewImageLarge(idOfElement);
+}
+
 //добавление карточек 
 function showContent() {
   const cardElement = document.getElementsByTagName("template")[0];
@@ -193,8 +235,10 @@ function showContent() {
       let elementToAdd = cardElement.content.cloneNode(true);
       elementToAdd.querySelector(".elements__card").setAttribute('id',`card${currentCard.id}`);
       elementToAdd.querySelector(".elements__title").innerText = currentCard.name;
-      elementToAdd.querySelector(".elements__image").src = currentCard.link;
-      elementToAdd.querySelector(".elements__image").alt = currentCard.name;
+      imagePanel = elementToAdd.querySelector(".elements__image");
+      imagePanel.src = currentCard.link;
+      imagePanel.alt = currentCard.name;
+      imagePanel.addEventListener('click', largeImagePress);
       likeButton = elementToAdd.querySelector(".elements__like-button")
       likeButton.setAttribute('id',`like${currentCard.id}`);
       likeButton.addEventListener('click', likeButtonPress);
