@@ -7,45 +7,43 @@ const jobInput = document.querySelector('.popup__input_type_description'); //п�
 const profileName = document.querySelector('.profile__name'); //переменная для доступа к месту отражения первой строки на странице
 const profileDescription = document.querySelector('.profile__description'); //переменная для доступа к месту отражения второй строки на странице
 
-const newCardpopup = document.querySelector('.popup__card-add');
+const newCardpopup = document.querySelector('.popup__card-add');//переменная для обращения изменения новой карточки
 const newCardButton = document.querySelector('.profile__add-button');// кнопка для добавления новой каточки мест
-const newCardpopupCloseButton = newCardpopup.querySelector('.popup__close-button');
-const newCardformElement = newCardpopup.querySelector('.popup__form');
-const newCardName = newCardpopup.querySelector('.popup__input_name');
-const newCardLink = newCardpopup.querySelector('.popup__input_link');
+const newCardpopupCloseButton = newCardpopup.querySelector('.popup__close-button');//переменная для закрытия окна изменения новой карточки
+const newCardformElement = newCardpopup.querySelector('.popup__form');//переменная для доступа к элементам ввода в окне изменения новой карточки
+const newCardName = newCardpopup.querySelector('.popup__input_name');//переменная для доступа к первой строке ввода новой карточки
+const newCardLink = newCardpopup.querySelector('.popup__input_link');//переменная для доступа ко второй строке ввода новой карточки
 
-const largeImagePopup = document.querySelector('.popup__large-image');
-const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');
-
-
+const largeImagePopup = document.querySelector('.popup__large-image');//переменная для открытия просмотра картинки
+const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');//переменная для закрытия просмотра картинки
 
 let cards = []; //хранение карточек на странице;
 
-//добавление карточек
+//массив карточек появляющихся по умолчанию
 const initialCards = [
   {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: 'Ижевск',
+    link: 'https://avatars.mds.yandex.net/get-zen_doc/1908497/pub_605090ade781846a40ad1577_605090f90a7d51654ace9a25/scale_1200'
   },
   {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: 'Сарапул',
+    link: 'https://pro-sarapul.ru/images/photo/usadyba-bashenina-sarapul-208.jpg'
   },
   {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: 'Глазов',
+    link: 'https://s12.stc.yc.kpcdn.net/share/i/12/10752003/wr-960.webp'
   },
   {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: 'Воткинск',
+    link: 'https://avatars.mds.yandex.net/get-zen_doc/2352663/pub_5fc92ec76bcad04cbc676afa_5fc92f9852642f33b9b60acf/scale_1200'
   },
   {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: 'Можга',
+    link: 'https://express-china.ru/upload/iblock/910/mozhga.jpg'
   },
   {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    name: 'Удмуртия',
+    link: 'https://pbs.twimg.com/media/FM6VbegXwAURqlI.jpg'
   }
 ];
 
@@ -95,21 +93,20 @@ function openPopup() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
 }
-
+//закрытие попапа, когда добавляю новую карточку
 function closeNewCardPopupOnClick(e) {
   if (e.target === e.currentTarget) {
     closeNewCardPopup();
   }
 }
-
+//закрытие попапа новой карточки по нажатию кнопки ескейп
 function closeNewCardPopupOnEscape(e) {
   if (e.key === 'Escape') {
     closeNewCardPopup();
   }
 }
-
+//сохранение новой дабавленной карточки по кнопке "сохранить"
 function formNewCardSubmitHandler(evt) {
-  //debugger;
   evt.preventDefault();
   //добавляем новую карточку
   maxCounterForId += 1;
@@ -118,7 +115,7 @@ function formNewCardSubmitHandler(evt) {
   //закрываем попап
   closeNewCardPopup();
 }
-
+//действия закрытия попапа добавляющего новую карточку
 function closeNewCardPopup() {
   newCardpopup.classList.remove('popup_opened');
   newCardpopupCloseButton.removeEventListener('click', closeNewCardPopup);
@@ -129,7 +126,6 @@ function closeNewCardPopup() {
 
 //действия необходимые для открытия попапа добавления новой карточки с фотографией
 function openNewCardPopup() {
-  //debugger;
   newCardpopup.classList.add('popup_opened');
   newCardpopupCloseButton.addEventListener('click', closeNewCardPopup);
   newCardpopup.addEventListener('click', closeNewCardPopupOnClick);
@@ -140,17 +136,15 @@ function openNewCardPopup() {
   //установим значение полей ввода
 }
 
-//debugger;
 // открытие попап при нажатии на "карандаш"
 button.addEventListener('click', function () {
   openPopup();
 });
-
+//обработка события по нажатию кнопки добавления новой карточки
 newCardButton.addEventListener('click', function () {
   openNewCardPopup();
-  //debugger;
 });
-
+//проставление лайка
 function changeLikeStatus(element_id,likeElement) {
   console.log(element_id);
   cardToSetLikeStatus = cards.find((cardArrayElement) => cardArrayElement.id === element_id);
@@ -164,11 +158,11 @@ function changeLikeStatus(element_id,likeElement) {
     }
   }
 }
-
+//лайк при нажатии на сердечко
 function likeButtonPress(evt) {
-  changeLikeStatus(evt.target.attributes.id.value.substr(3),evt.target);
+  changeLikeStatus(evt.target.attributes.id.value.substr(4),evt.target);
 }
-
+//удаление карточки при нажатии на урну
 function deleteCard(element_id,likeElement) {
   cardToDelete = cards.find((cardArrayElement) => cardArrayElement.id === element_id);
   if (cardToDelete != undefined) {
@@ -181,32 +175,32 @@ function deleteCard(element_id,likeElement) {
   };
 
 }
-
+//действие выполняемое при нажатии на урну
 function binButtonPress(evt) {
   deleteCard(evt.target.attributes.id.value.substr(3),evt.target)
 }
-
+//закрытие окна просмотра картинки
 function closeLargeImagePopup(e) {
   largeImagePopup.classList.remove('popup_opened');
   largeImagePopupCloseButton.removeEventListener('click', closeLargeImagePopup);
   largeImagePopup.removeEventListener('click', closeNewCardPopupOnClick);
   document.body.removeEventListener('keyup', closeLargeImagePopupOnEscape);
 }
-
+//закрытие окна просмотра картинки по ескейпу
 function closeLargeImagePopupOnEscape(e) {
   if (e.key === 'Escape') {
     closeLargeImagePopup();
   }
 }
-
+//закрытие окна просмотра картинки при нажатии вне попапа
 function closeLargeImagePopupOnClick(e) {
   if (e.target === e.currentTarget) {
     closeLargeImagePopup();
   }
 }
-
+//действия для открытия картинки
 function PreviewImageLarge(idOfElementToPreview) {
-  largeImagePopup.classList.add('popup_opened');
+  largeImagePopup.classList.add('popup_opened');//делаем попап окна просмотра картинки видимым
   largeImagePopupCloseButton.addEventListener('click', closeLargeImagePopup);
   largeImagePopup.addEventListener('click', closeLargeImagePopupOnClick);
   document.body.addEventListener('keyup', closeLargeImagePopupOnEscape);
@@ -220,7 +214,7 @@ function PreviewImageLarge(idOfElementToPreview) {
   }
   
 }
-
+//открытие окна просмотра картинки
 function largeImagePress(evt) {
   idOfElement = evt.target.parentElement.id.substr(4);
   PreviewImageLarge(idOfElement);
@@ -251,9 +245,12 @@ function showContent() {
     }
   })
 }
-
+//при открытии страницы нужно показать карточки по умолчанию, поэтому копирую из инишиалКардс в кардс
 cards = Object.assign([], initialCards);
+//переменная которая увеличивается каждый раз при добавлении новой карточки, ее смысл
+//в том чтобы давать всегда уникальный код для айди карточек
 maxCounterForId = 1000000;
+//инициализирую массив карточек: ни одна карточка не показана на странице, не залайкана, уникальный айди у каждой карточки
 cards.forEach((element) => {
   element.onPage = false;
   element.like = false;
@@ -261,7 +258,7 @@ cards.forEach((element) => {
   element.id = `${maxCounterForId}`;
 }
 )
-
+//покажем карточки, которые пока не видимы
 showContent();
 
 
