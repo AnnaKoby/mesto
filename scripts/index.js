@@ -134,6 +134,8 @@ function openNewCardPopup() {
   // он будет следить за событием “submit” - «отправка»
   newCardformElement.addEventListener('submit', formNewCardSubmitHandler);
   //установим значение полей ввода
+  newCardName.value = "";
+  newCardLink.value = "";
 }
 
 // открытие попап при нажатии на "карандаш"

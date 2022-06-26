@@ -1,3 +1,4 @@
 .popup__large-image-border {
     position: relative;
+    z-index: 2;
 }
