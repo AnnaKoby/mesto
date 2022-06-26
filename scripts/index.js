@@ -21,43 +21,43 @@ const largeImagePopup = document.querySelector('#large-image');//перемен�
 const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');//переменная для закрытия просмотра картинки
 
 // функция делающая попап невидимым
-function closePopup() {
+function closeSetProfilePopup() {
   setProfilePopup.classList.remove('popup_opened');
-  setProfilePopupCloseButton.removeEventListener('click', closePopup);
-  setProfilePopup.removeEventListener('click', closePopupOnClick);
-  document.body.removeEventListener('keyup', closePopupOnEscape);
-  setProfileFormElement.removeEventListener('submit', formSubmitHandler);
+  setProfilePopupCloseButton.removeEventListener('click', closeSetProfilePopup);
+  setProfilePopup.removeEventListener('click', closeSetProfilePopupOnClick);
+  document.body.removeEventListener('keyup', closeSetProfilePopupOnEscape);
+  setProfileFormElement.removeEventListener('submit', formSetProfileSubmitHandler);
 }
 // Обработчик «отправки» формы
-function formSubmitHandler(evt) {
+function formSetProfileSubmitHandler(evt) {
   evt.preventDefault();
   //меняю текст
   profileName.textContent = setProfileNameInput.value;
   profileDescription.textContent = setProfileJobInput.value;
   //закрываем попап
-  closePopup();
+  closeSetProfilePopup();
 }
 // функция закрывающая попап при нажатии esc
-function closePopupOnEscape(e) {
+function closeSetProfilePopupOnEscape(e) {
   if (e.key === 'Escape') {
-    closePopup();
+    closeSetProfilePopup();
   }
 }
 // функция закрывающая попап при нажатии на страницу вне попапа
-function closePopupOnClick(e) {
+function closeSetProfilePopupOnClick(e) {
   if (e.target === e.currentTarget) {
-    closePopup();
+    closeSetProfilePopup();
   }
 }
 //действия необходимые для открытия попапа изменения имени пользователя
-function openPopup() {
+function openSetProfilePopup() {
   setProfilePopup.classList.add('popup_opened');
-  setProfilePopupCloseButton.addEventListener('click', closePopup);
-  setProfilePopup.addEventListener('click', closePopupOnClick);
-  document.body.addEventListener('keyup', closePopupOnEscape);
+  setProfilePopupCloseButton.addEventListener('click', closeSetProfilePopup);
+  setProfilePopup.addEventListener('click', closeSetProfilePopupOnClick);
+  document.body.addEventListener('keyup', closeSetProfilePopupOnEscape);
   // Прикрепляем обработчик к форме:
   // он будет следить за событием “submit” - «отправка»
-  setProfileFormElement.addEventListener('submit', formSubmitHandler);
+  setProfileFormElement.addEventListener('submit', formSetProfileSubmitHandler);
   //установим значение полей ввода
   setProfileNameInput.value = profileName.textContent;
   setProfileJobInput.value = profileDescription.textContent;
@@ -105,7 +105,7 @@ function openNewCardPopup() {
 }
 // открытие попап при нажатии на "карандаш"
 setProfileButton.addEventListener('click', function () {
-  openPopup();
+  openSetProfilePopup();
 });
 //обработка события по нажатию кнопки добавления новой карточки
 newCardButton.addEventListener('click', function () {
