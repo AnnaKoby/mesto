@@ -20,8 +20,9 @@ const newCardLink = newCardPopup.querySelector('.popup__input_link');//пере�
 const largeImagePopup = document.querySelector('#large-image');//переменная для открытия просмотра картинки
 const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');//переменная для закрытия просмотра картинки
 
-function closePopup(elementPopupToClose) {
-  elementPopupToClose.classList.remove('popup_opened');
+function closePopup() {
+  //debugger;
+  document.querySelector('.popup_opened').classList.remove('popup_opened');
 }
 // Обработчик «отправки» формы
 function formSetProfileSubmitHandler(evt) {
@@ -30,56 +31,29 @@ function formSetProfileSubmitHandler(evt) {
   profileName.textContent = setProfileNameInput.value;
   profileDescription.textContent = setProfileJobInput.value;
   //закрываем попап
-  closePopup(setProfilePopup);
-}
-// функция закрывающая попап при нажатии esc
-function closeSetProfilePopupOnEscape(evt) {
-  if (evt.key === 'Escape') {
-    closePopup(setProfilePopup);
-  }
-}
-// функция закрывающая попап при нажатии на страницу вне попапа
-function closeSetProfilePopupOnClick(evt) {
-  if (evt.target === evt.currentTarget) {
-    closePopup(setProfilePopup);
-  }
+  closePopup();
 }
 function openPopup(elementPopupToOpen) {
   elementPopupToOpen.classList.add('popup_opened');
 }
 //действия необходимые для открытия попапа изменения имени пользователя
-function openSetProfilePopup() {
-  openPopup(setProfilePopup);
+function SetProfilePopupSetInitValues() {
   setProfileNameInput.value = profileName.textContent;
   setProfileJobInput.value = profileDescription.textContent;
 }
 //действия необходимые для открытия попапа добавления новой карточки с фотографией
-function openNewCardPopup() {
-  openPopup(newCardPopup);
+function NewCardPopupSetInitValues() {
   //установим значение полей ввода
   newCardFormElement.reset();
 }
 //действия для открытия картинки
-function PreviewImageLarge(ElementToPreview) {
-  openPopup(largeImagePopup);
-  largeImagePopup.classList.add('popup__large-image');
+function PreviewImageLargeInit(ElementToPreview) {
+  largeImagePopup.classList.add('popup__large-image');//для прохождения валидации по BEM
   imagePreview = largeImagePopup.querySelector(".popup__large-image-preview");
   imageCaption = largeImagePopup.querySelector(".popup__image-title");
   imagePreview.src = ElementToPreview.src;
   imagePreview.alt = ElementToPreview.alt;
   imageCaption.innerText = ElementToPreview.alt;
-}
-//закрытие попапа, когда добавляю новую карточку
-function closeNewCardPopupOnClick(evt) {
-  if (evt.target === evt.currentTarget) {
-    closePopup(newCardPopup);
-  }
-}
-//закрытие попапа новой карточки по нажатию кнопки ескейп
-function closeNewCardPopupOnEscape(e) {
-  if (evt.key === 'Escape') {
-    closePopup(newCardPopup);
-  }
 }
 //сохранение новой дабавленной карточки по кнопке "сохранить"
 function formNewCardSubmitHandler(evt) {
@@ -87,15 +61,17 @@ function formNewCardSubmitHandler(evt) {
   //добавляем новую карточку
   addNewCard(newCardName.value,newCardLink.value);
   //закрываем попап
-  closePopup(newCardPopup);
+  closePopup();
 }
 // открытие попап при нажатии на "карандаш"
 setProfileButton.addEventListener('click', function () {
-  openSetProfilePopup();
+  SetProfilePopupSetInitValues();
+  openPopup(setProfilePopup);
 });
 //обработка события по нажатию кнопки добавления новой карточки
 newCardButton.addEventListener('click', function () {
-  openNewCardPopup();
+  NewCardPopupSetInitValues();
+  openPopup(newCardPopup);
 });
 //проставление лайка
 function changeLikeStatus(likeElement) {
@@ -114,20 +90,21 @@ function binButtonPress(evt) {
   deleteCard(evt.target.parentElement)
 }
 //закрытие окна просмотра картинки по ескейпу
-function closeLargeImagePopupOnEscape(evt) {
+function closePopupOnEscape(evt) {
   if (evt.key === 'Escape') {
-    closePopup(largeImagePopup);
+    closePopup();
   }
 }
 //закрытие окна просмотра картинки при нажатии вне попапа
-function closeLargeImagePopupOnClick(evt) {
+function closePopupOnClick(evt) {
   if (evt.target === evt.currentTarget) {
-    closePopup(largeImagePopup);
+    closePopup();
   }
 }
 //открытие окна просмотра картинки
 function largeImagePress(evt) {
-  PreviewImageLarge(evt.target);
+  openPopup(largeImagePopup);
+  PreviewImageLargeInit(evt.target);
 }
 function addNewCard(name,link) {
   let elementToAdd = cardElement.content.cloneNode(true);
@@ -149,33 +126,23 @@ function showInitialContent() {
     addNewCard(currentCard.name,currentCard.link);
   })
 }
-//реакция на нажатие кнопки закрытия попапов
-function closeSetProfilePopup() {
-  closePopup(setProfilePopup);
-}
-function closeNewCardPopup() {
-  closePopup(newCardPopup);
-}
-function closeLargeImagePopup() {
-  closePopup(largeImagePopup);
-}
 
-setProfilePopupCloseButton.addEventListener('click', closeSetProfilePopup);
-setProfilePopup.addEventListener('click', closeSetProfilePopupOnClick);
-document.body.addEventListener('keyup', closeSetProfilePopupOnEscape);
+setProfilePopupCloseButton.addEventListener('click', closePopup);
+setProfilePopup.addEventListener('click', closePopupOnClick);
+document.body.addEventListener('keyup', closePopupOnEscape);
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 setProfileFormElement.addEventListener('submit', formSetProfileSubmitHandler);
 //установим значение полей ввода
-newCardPopupCloseButton.addEventListener('click', closeNewCardPopup);
-newCardPopup.addEventListener('click', closeNewCardPopupOnClick);
-document.body.addEventListener('keyup', closeNewCardPopupOnEscape);
+newCardPopupCloseButton.addEventListener('click', closePopup);
+newCardPopup.addEventListener('click', closePopupOnClick);
+document.body.addEventListener('keyup', closePopupOnEscape);
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 newCardFormElement.addEventListener('submit', formNewCardSubmitHandler);
-largeImagePopupCloseButton.addEventListener('click', closeLargeImagePopup);
-largeImagePopup.addEventListener('click', closeLargeImagePopupOnClick);
-document.body.addEventListener('keyup', closeLargeImagePopupOnEscape);
+largeImagePopupCloseButton.addEventListener('click', closePopup);
+largeImagePopup.addEventListener('click', closePopupOnClick);
+document.body.addEventListener('keyup', closePopupOnEscape);
 //покажем карточки, которые пока не видимы
 showInitialContent();
 
