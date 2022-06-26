@@ -32,16 +32,6 @@
 
         <section class="elements-container">
             <ul class="elements">
-                <template>
-                    <li class="elements__card">
-                        <img class="elements__image" src="#" alt="#">
-                        <button type="button" class="elements__bin-button"></button>
-                        <div class="elements__image-caption">
-                            <h2 class="elements__title">#</h2>
-                            <button type="button" class="elements__like-button"></button>
-                        </div>
-                    </li>
-                </template>
             </ul>
         </section>
     </main>
@@ -87,7 +77,18 @@
         </div>
     </div>
 
+    <template>
+        <li class="elements__card">
+            <img class="elements__image" src="#" alt="#">
+            <button type="button" class="elements__bin-button"></button>
+            <div class="elements__image-caption">
+                <h2 class="elements__title">#</h2>
+                <button type="button" class="elements__like-button"></button>
+            </div>
+        </li>
+    </template>
     <script src='./scripts/index.js'></script>
-</body>
+    </body>
+
 
 </html>

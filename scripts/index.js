@@ -1,3 +1,6 @@
+const cardElement = document.querySelector('template');
+const cardElementsNode = document.querySelector('.elements');
+
 const button = document.querySelector('.profile__pen-button'); // переменная для обращения кнопки "карандаш"
 const popup = document.querySelector('#profile-add'); // переменная для обращения к окну изменения имени пользоваеля
 const popupCloseButton = document.querySelector('.popup__close-button'); // переменная для закрытия окна изменения имени пользователя
@@ -16,8 +19,6 @@ const newCardLink = newCardpopup.querySelector('.popup__input_link');//пере�
 
 const largeImagePopup = document.querySelector('#large-image');//переменная для открытия просмотра картинки
 const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');//переменная для закрытия просмотра картинки
-
-let cards = []; //хранение карточек на странице;
 
 //массив карточек появляющихся по умолчанию
 const initialCards = [
@@ -109,9 +110,7 @@ function closeNewCardPopupOnEscape(e) {
 function formNewCardSubmitHandler(evt) {
   evt.preventDefault();
   //добавляем новую карточку
-  maxCounterForId += 1;
-  cards.push({name: newCardName.value, link: newCardLink.value, like: false, id: `${maxCounterForId}`});
-  showContent();
+  addNewCard(newCardName.value,newCardLink.value);
   //закрываем попап
   closeNewCardPopup();
 }
@@ -147,39 +146,25 @@ newCardButton.addEventListener('click', function () {
   openNewCardPopup();
 });
 //проставление лайка
-function changeLikeStatus(element_id,likeElement) {
-  console.log(element_id);
-  cardToSetLikeStatus = cards.find((cardArrayElement) => cardArrayElement.id === element_id);
-  if (cardToSetLikeStatus != undefined) {
-    cardToSetLikeStatus.like = !cardToSetLikeStatus.like;
-    if (cardToSetLikeStatus.like) {
-      likeElement.classList.add('elements__like-button_active')
-    }
-    else {
-      likeElement.classList.remove('elements__like-button_active')
-    }
+function changeLikeStatus(likeElement) {
+  if (!likeElement.classList.contains('elements__like-button_active')) {
+    likeElement.classList.add('elements__like-button_active')
+  }
+  else {
+    likeElement.classList.remove('elements__like-button_active')
   }
 }
 //лайк при нажатии на сердечко
 function likeButtonPress(evt) {
-  changeLikeStatus(evt.target.attributes.id.value.substr(4),evt.target);
+  changeLikeStatus(evt.target);
 }
 //удаление карточки при нажатии на урну
-function deleteCard(element_id,likeElement) {
-  cardToDelete = cards.find((cardArrayElement) => cardArrayElement.id === element_id);
-  if (cardToDelete != undefined) {
-    cards.splice(cards.indexOf(cardToDelete),1);
-    patternToSearch = `#card${element_id}`;
-    elementToDelete = document.querySelector(patternToSearch);
-    if (elementToDelete != undefined) {
-      elementToDelete.remove();
-    }
-  };
-
+function deleteCard(cardElement) {
+  cardElement.remove();
 }
 //действие выполняемое при нажатии на урну
 function binButtonPress(evt) {
-  deleteCard(evt.target.attributes.id.value.substr(3),evt.target)
+  deleteCard(evt.target.parentElement)
 }
 //закрытие окна просмотра картинки
 function closeLargeImagePopup(e) {
@@ -201,66 +186,45 @@ function closeLargeImagePopupOnClick(e) {
   }
 }
 //действия для открытия картинки
-function PreviewImageLarge(idOfElementToPreview) {
+function PreviewImageLarge(ElementToPreview) {
   largeImagePopup.classList.add('popup_opened');//делаем попап окна просмотра картинки видимым
   largeImagePopupCloseButton.addEventListener('click', closeLargeImagePopup);
   largeImagePopup.addEventListener('click', closeLargeImagePopupOnClick);
   document.body.addEventListener('keyup', closeLargeImagePopupOnEscape);
   imagePreview = largeImagePopup.querySelector(".popup__large-image-preview");
   imageCaption = largeImagePopup.querySelector(".popup__image-title");
-  card = cards.find((el) => el.id === idOfElementToPreview);
-  if (card != undefined) {
-    imagePreview.src = card.link;
-    imagePreview.alt = card.name;
-    imageCaption.innerText = card.name;
-  }
-  
+  debugger;
+  imagePreview.src = ElementToPreview.src;
+  imagePreview.alt = ElementToPreview.alt;
+  imageCaption.innerText = ElementToPreview.alt;
+
 }
 //открытие окна просмотра картинки
 function largeImagePress(evt) {
-  idOfElement = evt.target.parentElement.id.substr(4);
-  PreviewImageLarge(idOfElement);
+  PreviewImageLarge(evt.target);
+}
+
+function addNewCard(name,link) {
+  let elementToAdd = cardElement.content.cloneNode(true);
+  //elementToAdd.querySelector(".elements__card").setAttribute('id', `card${currentCard.id}`);
+  elementToAdd.querySelector(".elements__title").innerText = name;
+  imagePanel = elementToAdd.querySelector(".elements__image");
+  imagePanel.src = link;
+  imagePanel.alt = name;
+  imagePanel.addEventListener('click', largeImagePress);
+  likeButton = elementToAdd.querySelector(".elements__like-button")
+  likeButton.addEventListener('click', likeButtonPress);
+  binButton = elementToAdd.querySelector(".elements__bin-button");
+  binButton.addEventListener('click', binButtonPress);
+  cardElementsNode.appendChild(elementToAdd);
 }
 
 //добавление карточек 
-function showContent() {
-  const cardElement = document.getElementsByTagName("template")[0];
-  const cardElementsNode = document.getElementsByClassName("elements")[0];
-  cards.forEach((currentCard) => {
-    if (!currentCard.onPage) {
-      let elementToAdd = cardElement.content.cloneNode(true);
-      elementToAdd.querySelector(".elements__card").setAttribute('id',`card${currentCard.id}`);
-      elementToAdd.querySelector(".elements__title").innerText = currentCard.name;
-      imagePanel = elementToAdd.querySelector(".elements__image");
-      imagePanel.src = currentCard.link;
-      imagePanel.alt = currentCard.name;
-      imagePanel.addEventListener('click', largeImagePress);
-      likeButton = elementToAdd.querySelector(".elements__like-button")
-      likeButton.setAttribute('id',`like${currentCard.id}`);
-      likeButton.addEventListener('click', likeButtonPress);
-      binButton = elementToAdd.querySelector(".elements__bin-button");
-      binButton.setAttribute('id',`bin${currentCard.id}`);
-      binButton.addEventListener('click', binButtonPress);
-      //elements__bin-button
-      cardElementsNode.appendChild(elementToAdd);
-      currentCard.onPage = true;
-    }
+function showInitialContent() {
+  initialCards.forEach((currentCard) => {
+    addNewCard(currentCard.name,currentCard.link);
   })
 }
-//при открытии страницы нужно показать карточки по умолчанию, поэтому копирую из инишиалКардс в кардс
-cards = Object.assign([], initialCards);
-//переменная которая увеличивается каждый раз при добавлении новой карточки, ее смысл
-//в том чтобы давать всегда уникальный код для айди карточек
-maxCounterForId = 1000000;
-//инициализирую массив карточек: ни одна карточка не показана на странице, не залайкана, уникальный айди у каждой карточки
-cards.forEach((element) => {
-  element.onPage = false;
-  element.like = false;
-  maxCounterForId += 1;
-  element.id = `${maxCounterForId}`;
-}
-)
+
 //покажем карточки, которые пока не видимы
-showContent();
-
-
+showInitialContent();
