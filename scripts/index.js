@@ -21,10 +21,26 @@ const largeImagePopup = document.querySelector('#large-image');//перемен�
 const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');//переменная для закрытия просмотра картинки
 
 function closePopup() {
-  //debugger;
+  //ищем любой первый попавшийся открытый попап;
   document.querySelector('.popup_opened').classList.remove('popup_opened');
 }
-// Обработчик «отправки» формы
+//закрывает переданный в 1м аргументе попап
+function openPopup(elementPopupToOpen) {
+  elementPopupToOpen.classList.add('popup_opened');
+}
+//обработчик закрытия любого попапа по ескейпу
+function closePopupOnEscape(evt) {
+  if (evt.key === 'Escape') {
+    closePopup();
+  }
+}
+//обработчик закрытия окна просмотра любого попапа при нажатии вне попапа
+function closePopupOnClick(evt) {
+  if (evt.target === evt.currentTarget) {
+    closePopup();
+  }
+}
+//папап с изменением пользователя; Обработчик для сохранения данных пользователя
 function formSetProfileSubmitHandler(evt) {
   evt.preventDefault();
   //меняю текст
@@ -33,20 +49,25 @@ function formSetProfileSubmitHandler(evt) {
   //закрываем попап
   closePopup();
 }
-function openPopup(elementPopupToOpen) {
-  elementPopupToOpen.classList.add('popup_opened');
+//попап добавления новой карточки; обработчик сохранения новой дабавленной карточки по кнопке "сохранить"
+function formNewCardSubmitHandler(evt) {
+  evt.preventDefault();
+  //добавляем новую карточку
+  addNewCard(newCardName.value,newCardLink.value);
+  //закрываем попап
+  closePopup();
 }
-//действия необходимые для открытия попапа изменения имени пользователя
+//папап с изменением пользователя; установка значений полей предыдущими значениями
 function SetProfilePopupSetInitValues() {
   setProfileNameInput.value = profileName.textContent;
   setProfileJobInput.value = profileDescription.textContent;
 }
-//действия необходимые для открытия попапа добавления новой карточки с фотографией
+//попап добавления новой карточки; установка значений "по умолчанию"
 function NewCardPopupSetInitValues() {
   //установим значение полей ввода
   newCardFormElement.reset();
 }
-//действия для открытия картинки
+//попап просмотра увеличенного изображения; установка параметров показываемой картинки и её названия
 function PreviewImageLargeInit(ElementToPreview) {
   largeImagePopup.classList.add('popup__large-image');//для прохождения валидации по BEM
   imagePreview = largeImagePopup.querySelector(".popup__large-image-preview");
@@ -55,57 +76,28 @@ function PreviewImageLargeInit(ElementToPreview) {
   imagePreview.alt = ElementToPreview.alt;
   imageCaption.innerText = ElementToPreview.alt;
 }
-//сохранение новой дабавленной карточки по кнопке "сохранить"
-function formNewCardSubmitHandler(evt) {
-  evt.preventDefault();
-  //добавляем новую карточку
-  addNewCard(newCardName.value,newCardLink.value);
-  //закрываем попап
-  closePopup();
-}
-// открытие попап при нажатии на "карандаш"
-setProfileButton.addEventListener('click', function () {
-  SetProfilePopupSetInitValues();
-  openPopup(setProfilePopup);
-});
-//обработка события по нажатию кнопки добавления новой карточки
-newCardButton.addEventListener('click', function () {
-  NewCardPopupSetInitValues();
-  openPopup(newCardPopup);
-});
 //проставление лайка
 function changeLikeStatus(likeElement) {
   likeElement.classList.toggle('elements__like-button_active');
 }
-//лайк при нажатии на сердечко
+//обработчик нажатия "лайк" при нажатии на сердечко 
 function likeButtonPress(evt) {
   changeLikeStatus(evt.target);
 }
-//удаление карточки при нажатии на урну
+//удаление карточки
 function deleteCard(cardElement) {
   cardElement.remove();
 }
-//действие выполняемое при нажатии на урну
+//обработчик при нажатии на "урну"
 function binButtonPress(evt) {
   deleteCard(evt.target.parentElement)
 }
-//закрытие окна просмотра картинки по ескейпу
-function closePopupOnEscape(evt) {
-  if (evt.key === 'Escape') {
-    closePopup();
-  }
-}
-//закрытие окна просмотра картинки при нажатии вне попапа
-function closePopupOnClick(evt) {
-  if (evt.target === evt.currentTarget) {
-    closePopup();
-  }
-}
-//открытие окна просмотра картинки
+//обработчик открытия окна просмотра картинки
 function largeImagePress(evt) {
   openPopup(largeImagePopup);
   PreviewImageLargeInit(evt.target);
 }
+//функция добавления на страницу новой карточки; с картинкой и именем (1й и 2й аргумент функции) и обработчиками
 function addNewCard(name,link) {
   let elementToAdd = cardElement.content.cloneNode(true);
   //elementToAdd.querySelector(".elements__card").setAttribute('id', `card${currentCard.id}`);
@@ -120,12 +112,24 @@ function addNewCard(name,link) {
   binButton.addEventListener('click', binButtonPress);
   cardElementsNode.appendChild(elementToAdd);
 }
-//добавление карточек 
+
+//добавление первоначальных карточек "по умолчанию"
 function showInitialContent() {
   initialCards.forEach((currentCard) => {
     addNewCard(currentCard.name,currentCard.link);
   })
 }
+
+//папап с изменением пользователя; привязка обработчика для открытия попап при нажатии на "карандаш"
+setProfileButton.addEventListener('click', function () {
+  SetProfilePopupSetInitValues();
+  openPopup(setProfilePopup);
+});
+//попап добавления новой карточки; привязка обработчика по нажатию кнопки добавления новой карточки
+newCardButton.addEventListener('click', function () {
+  NewCardPopupSetInitValues();
+  openPopup(newCardPopup);
+});
 
 setProfilePopupCloseButton.addEventListener('click', closePopup);
 setProfilePopup.addEventListener('click', closePopupOnClick);
