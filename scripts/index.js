@@ -1,5 +1,5 @@
 const button = document.querySelector('.profile__pen-button'); // переменная для обращения кнопки "карандаш"
-const popup = document.querySelector('.popup'); // переменная для обращения к окну изменения имени пользоваеля
+const popup = document.querySelector('#profile-add'); // переменная для обращения к окну изменения имени пользоваеля
 const popupCloseButton = document.querySelector('.popup__close-button'); // переменная для закрытия окна изменения имени пользователя
 const formElement = document.querySelector('.popup__form'); //переменная для доступа к элементам ввода в окне изменения имени пользователя
 const nameInput = document.querySelector('.popup__input_type_name'); //переменная для доступа к первой строке ввода окна изменения имени пользователя
@@ -7,14 +7,14 @@ const jobInput = document.querySelector('.popup__input_type_description'); //п�
 const profileName = document.querySelector('.profile__name'); //переменная для доступа к месту отражения первой строки на странице
 const profileDescription = document.querySelector('.profile__description'); //переменная для доступа к месту отражения второй строки на странице
 
-const newCardpopup = document.querySelector('.popup__card-add');//переменная для обращения изменения новой карточки
+const newCardpopup = document.querySelector('#card-add');//переменная для обращения изменения новой карточки
 const newCardButton = document.querySelector('.profile__add-button');// кнопка для добавления новой каточки мест
 const newCardpopupCloseButton = newCardpopup.querySelector('.popup__close-button');//переменная для закрытия окна изменения новой карточки
 const newCardformElement = newCardpopup.querySelector('.popup__form');//переменная для доступа к элементам ввода в окне изменения новой карточки
 const newCardName = newCardpopup.querySelector('.popup__input_name');//переменная для доступа к первой строке ввода новой карточки
 const newCardLink = newCardpopup.querySelector('.popup__input_link');//переменная для доступа ко второй строке ввода новой карточки
 
-const largeImagePopup = document.querySelector('.popup__large-image');//переменная для открытия просмотра картинки
+const largeImagePopup = document.querySelector('#large-image');//переменная для открытия просмотра картинки
 const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');//переменная для закрытия просмотра картинки
 
 let cards = []; //хранение карточек на странице;
