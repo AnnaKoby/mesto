@@ -41,7 +41,7 @@ function closePopupOnClick(evt) {
   }
 }
 //папап с изменением пользователя; Обработчик для сохранения данных пользователя
-function formSetProfileSubmitHandler(evt) {
+function formProfileBoxSubmitHandler(evt) {
   evt.preventDefault();
   //меняю текст
   profileName.textContent = profileBoxNameInput.value;
@@ -58,7 +58,7 @@ function formNewCardSubmitHandler(evt) {
   closePopup();
 }
 //папап с изменением пользователя; установка значений полей предыдущими значениями
-function setProfilePopupSetInitValues() {
+function profileBoxPopupSetInitValues() {
   profileBoxNameInput.value = profileName.textContent;
   profileBoxJobInput.value = profileDescription.textContent;
 }
@@ -122,7 +122,7 @@ function showInitialContent() {
 
 //папап с изменением пользователя; привязка обработчика для открытия попап при нажатии на "карандаш"
 profileBoxButton.addEventListener('click', function () {
-  setProfilePopupSetInitValues();
+  ProfileBoxPopupSetInitValues();
   openPopup(profileBoxPopup);
 });
 //попап добавления новой карточки; привязка обработчика по нажатию кнопки добавления новой карточки
@@ -135,7 +135,7 @@ profileBoxPopupCloseButton.addEventListener('click', closePopup);
 profileBoxPopup.addEventListener('click', closePopupOnClick);
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-profileBoxFormElement.addEventListener('submit', formSetProfileSubmitHandler);
+profileBoxFormElement.addEventListener('submit', formProfileBoxSubmitHandler);
 //установим значение полей ввода
 newCardPopupCloseButton.addEventListener('click', closePopup);
 newCardPopup.addEventListener('click', closePopupOnClick);
