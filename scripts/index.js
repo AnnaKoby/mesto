@@ -7,8 +7,8 @@ const profileBoxPopupCloseButton = document.querySelector('.popup__close-button'
 const profileBoxFormElement = document.querySelector('.popup__form'); //переменная для доступа к элементам ввода в окне изменения имени пользователя
 const profileBoxNameInput = document.querySelector('.popup__input_type_name'); //переменная для доступа к первой строке ввода окна изменения имени пользователя
 const profileBoxJobInput = document.querySelector('.popup__input_type_description'); //переменная для доступа ко второй строке ввода 
-const profileName = document.querySelector('.profile__name'); //переменная для доступа к месту отражения первой строки на странице
-const profileDescription = document.querySelector('.profile__description'); //переменная для доступа к месту отражения второй строки на странице
+const profileBoxName = document.querySelector('.profile__name'); //переменная для доступа к месту отражения первой строки на странице
+const profileBoxDescription = document.querySelector('.profile__description'); //переменная для доступа к месту отражения второй строки на странице
 
 const newCardPopup = document.querySelector('#card-add');//переменная для обращения изменения новой карточки
 const newCardButton = document.querySelector('.profile__add-button');// кнопка для добавления новой каточки мест
@@ -20,9 +20,8 @@ const newCardLink = newCardPopup.querySelector('.popup__input_link');//пере�
 const largeImagePopup = document.querySelector('#large-image');//переменная для открытия просмотра картинки
 const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');//переменная для закрытия просмотра картинки
 
-function closePopup() {
-  //ищем любой первый попавшийся открытый попап;
-  document.querySelector('.popup_opened').classList.remove('popup_opened');
+function closePopup(elementPopupToClose) {
+  elementPopupToClose.classList.remove('popup_opened');
 }
 //закрывает переданный в 1м аргументе попап
 function openPopup(elementPopupToOpen) {
@@ -31,23 +30,27 @@ function openPopup(elementPopupToOpen) {
 //обработчик закрытия любого попапа по ескейпу
 function closePopupOnEscape(evt) {
   if (evt.key === 'Escape') {
-    closePopup();
+    closePopup(document.querySelector('.popup_opened'));
   }
 }
 //обработчик закрытия окна просмотра любого попапа при нажатии вне попапа
 function closePopupOnClick(evt) {
   if (evt.target === evt.currentTarget) {
-    closePopup();
+    closePopup(evt.target);
   }
+}
+//закрытие попапов по крестику
+function closePopupOnButton(evt) {
+  closePopup(evt.target.parentElement.parentElement.parentElement);//во всех попапах крстик на 3й глубине внетки попапа
 }
 //папап с изменением пользователя; Обработчик для сохранения данных пользователя
 function formProfileBoxSubmitHandler(evt) {
   evt.preventDefault();
   //меняю текст
-  profileName.textContent = profileBoxNameInput.value;
-  profileDescription.textContent = profileBoxJobInput.value;
+  profileBoxName.textContent = profileBoxNameInput.value;
+  profileBoxDescription.textContent = profileBoxJobInput.value;
   //закрываем попап
-  closePopup();
+  closePopup(profileBoxPopup);
 }
 //попап добавления новой карточки; обработчик сохранения новой дабавленной карточки по кнопке "сохранить"
 function formNewCardSubmitHandler(evt) {
@@ -55,12 +58,13 @@ function formNewCardSubmitHandler(evt) {
   //добавляем новую карточку
   addNewCard(newCardName.value,newCardLink.value);
   //закрываем попап
-  closePopup();
+  closePopup(newCardPopup);
 }
+
 //папап с изменением пользователя; установка значений полей предыдущими значениями
 function profileBoxPopupSetInitValues() {
-  profileBoxNameInput.value = profileName.textContent;
-  profileBoxJobInput.value = profileDescription.textContent;
+  profileBoxNameInput.value = profileBoxName.textContent;
+  profileBoxJobInput.value = profileBoxDescription.textContent;
 }
 //попап добавления новой карточки; установка значений "по умолчанию"
 function newCardPopupSetInitValues() {
@@ -122,7 +126,7 @@ function showInitialContent() {
 
 //папап с изменением пользователя; привязка обработчика для открытия попап при нажатии на "карандаш"
 profileBoxButton.addEventListener('click', function () {
-  ProfileBoxPopupSetInitValues();
+  profileBoxPopupSetInitValues();
   openPopup(profileBoxPopup);
 });
 //попап добавления новой карточки; привязка обработчика по нажатию кнопки добавления новой карточки
@@ -131,18 +135,18 @@ newCardButton.addEventListener('click', function () {
   openPopup(newCardPopup);
 });
 
-profileBoxPopupCloseButton.addEventListener('click', closePopup);
+profileBoxPopupCloseButton.addEventListener('click', closePopupOnButton);
 profileBoxPopup.addEventListener('click', closePopupOnClick);
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 profileBoxFormElement.addEventListener('submit', formProfileBoxSubmitHandler);
 //установим значение полей ввода
-newCardPopupCloseButton.addEventListener('click', closePopup);
+newCardPopupCloseButton.addEventListener('click', closePopupOnButton);
 newCardPopup.addEventListener('click', closePopupOnClick);
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 newCardFormElement.addEventListener('submit', formNewCardSubmitHandler);
-largeImagePopupCloseButton.addEventListener('click', closePopup);
+largeImagePopupCloseButton.addEventListener('click', closePopupOnButton);
 largeImagePopup.addEventListener('click', closePopupOnClick);
 document.body.addEventListener('keyup', closePopupOnEscape);
 //покажем карточки, которые пока не видимы
