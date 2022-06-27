@@ -1,12 +1,12 @@
 const cardElement = document.querySelector('template');
 const cardElementsNode = document.querySelector('.elements');
 
-const setProfileButton = document.querySelector('.profile__pen-button'); // переменная для обращения кнопки "карандаш"
-const setProfilePopup = document.querySelector('#profile-add'); // переменная для обращения к окну изменения имени пользоваеля
-const setProfilePopupCloseButton = document.querySelector('.popup__close-button'); // переменная для закрытия окна изменения имени пользователя
-const setProfileFormElement = document.querySelector('.popup__form'); //переменная для доступа к элементам ввода в окне изменения имени пользователя
-const setProfileNameInput = document.querySelector('.popup__input_type_name'); //переменная для доступа к первой строке ввода окна изменения имени пользователя
-const setProfileJobInput = document.querySelector('.popup__input_type_description'); //переменная для доступа ко второй строке ввода 
+const profileBoxButton = document.querySelector('.profile__pen-button'); // переменная для обращения кнопки "карандаш"
+const profileBoxPopup = document.querySelector('#profile-add'); // переменная для обращения к окну изменения имени пользоваеля
+const profileBoxPopupCloseButton = document.querySelector('.popup__close-button'); // переменная для закрытия окна изменения имени пользователя
+const profileBoxFormElement = document.querySelector('.popup__form'); //переменная для доступа к элементам ввода в окне изменения имени пользователя
+const profileBoxNameInput = document.querySelector('.popup__input_type_name'); //переменная для доступа к первой строке ввода окна изменения имени пользователя
+const profileBoxJobInput = document.querySelector('.popup__input_type_description'); //переменная для доступа ко второй строке ввода 
 const profileName = document.querySelector('.profile__name'); //переменная для доступа к месту отражения первой строки на странице
 const profileDescription = document.querySelector('.profile__description'); //переменная для доступа к месту отражения второй строки на странице
 
@@ -44,8 +44,8 @@ function closePopupOnClick(evt) {
 function formSetProfileSubmitHandler(evt) {
   evt.preventDefault();
   //меняю текст
-  profileName.textContent = setProfileNameInput.value;
-  profileDescription.textContent = setProfileJobInput.value;
+  profileName.textContent = profileBoxNameInput.value;
+  profileDescription.textContent = profileBoxJobInput.value;
   //закрываем попап
   closePopup();
 }
@@ -58,17 +58,17 @@ function formNewCardSubmitHandler(evt) {
   closePopup();
 }
 //папап с изменением пользователя; установка значений полей предыдущими значениями
-function SetProfilePopupSetInitValues() {
-  setProfileNameInput.value = profileName.textContent;
-  setProfileJobInput.value = profileDescription.textContent;
+function setProfilePopupSetInitValues() {
+  profileBoxNameInput.value = profileName.textContent;
+  profileBoxJobInput.value = profileDescription.textContent;
 }
 //попап добавления новой карточки; установка значений "по умолчанию"
-function NewCardPopupSetInitValues() {
+function newCardPopupSetInitValues() {
   //установим значение полей ввода
   newCardFormElement.reset();
 }
 //попап просмотра увеличенного изображения; установка параметров показываемой картинки и её названия
-function PreviewImageLargeInit(ElementToPreview) {
+function previewImageLargeInit(ElementToPreview) {
   largeImagePopup.classList.add('popup__large-image');//для прохождения валидации по BEM
   imagePreview = largeImagePopup.querySelector(".popup__large-image-preview");
   imageCaption = largeImagePopup.querySelector(".popup__image-title");
@@ -95,22 +95,22 @@ function binButtonPress(evt) {
 //обработчик открытия окна просмотра картинки
 function largeImagePress(evt) {
   openPopup(largeImagePopup);
-  PreviewImageLargeInit(evt.target);
+  previewImageLargeInit(evt.target);
 }
 //функция добавления на страницу новой карточки; с картинкой и именем (1й и 2й аргумент функции) и обработчиками
 function addNewCard(name,link) {
-  let elementToAdd = cardElement.content.cloneNode(true);
+  const elementToAdd = cardElement.content.cloneNode(true);
   //elementToAdd.querySelector(".elements__card").setAttribute('id', `card${currentCard.id}`);
   elementToAdd.querySelector(".elements__title").innerText = name;
-  imagePanel = elementToAdd.querySelector(".elements__image");
+  const imagePanel = elementToAdd.querySelector(".elements__image");
   imagePanel.src = link;
   imagePanel.alt = name;
   imagePanel.addEventListener('click', largeImagePress);
-  likeButton = elementToAdd.querySelector(".elements__like-button")
+  const likeButton = elementToAdd.querySelector(".elements__like-button")
   likeButton.addEventListener('click', likeButtonPress);
-  binButton = elementToAdd.querySelector(".elements__bin-button");
+  const binButton = elementToAdd.querySelector(".elements__bin-button");
   binButton.addEventListener('click', binButtonPress);
-  cardElementsNode.appendChild(elementToAdd);
+  cardElementsNode.insertBefore(elementToAdd, cardElementsNode.firstChild);
 }
 
 //добавление первоначальных карточек "по умолчанию"
@@ -121,21 +121,21 @@ function showInitialContent() {
 }
 
 //папап с изменением пользователя; привязка обработчика для открытия попап при нажатии на "карандаш"
-setProfileButton.addEventListener('click', function () {
-  SetProfilePopupSetInitValues();
-  openPopup(setProfilePopup);
+profileBoxButton.addEventListener('click', function () {
+  setProfilePopupSetInitValues();
+  openPopup(profileBoxPopup);
 });
 //попап добавления новой карточки; привязка обработчика по нажатию кнопки добавления новой карточки
 newCardButton.addEventListener('click', function () {
-  NewCardPopupSetInitValues();
+  newCardPopupSetInitValues();
   openPopup(newCardPopup);
 });
 
-setProfilePopupCloseButton.addEventListener('click', closePopup);
-setProfilePopup.addEventListener('click', closePopupOnClick);
+profileBoxPopupCloseButton.addEventListener('click', closePopup);
+profileBoxPopup.addEventListener('click', closePopupOnClick);
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-setProfileFormElement.addEventListener('submit', formSetProfileSubmitHandler);
+profileBoxFormElement.addEventListener('submit', formSetProfileSubmitHandler);
 //установим значение полей ввода
 newCardPopupCloseButton.addEventListener('click', closePopup);
 newCardPopup.addEventListener('click', closePopupOnClick);
