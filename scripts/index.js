@@ -19,6 +19,8 @@ const newCardLink = newCardPopup.querySelector('.popup__input_link');//пере�
 
 const largeImagePopup = document.querySelector('#large-image');//переменная для открытия просмотра картинки
 const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');//переменная для закрытия просмотра картинки
+const imagePreview = largeImagePopup.querySelector(".popup__large-image-preview");
+const imageCaption = largeImagePopup.querySelector(".popup__image-title");
 
 function closePopup(elementPopupToClose) {
   elementPopupToClose.classList.remove('popup_opened');
@@ -56,7 +58,7 @@ function formProfileBoxSubmitHandler(evt) {
 function formNewCardSubmitHandler(evt) {
   evt.preventDefault();
   //добавляем новую карточку
-  addNewCard(newCardName.value,newCardLink.value);
+  addNewCard({'name': newCardName.value,'link': newCardLink.value});
   //закрываем попап
   closePopup(newCardPopup);
 }
@@ -74,8 +76,6 @@ function newCardPopupSetInitValues() {
 //попап просмотра увеличенного изображения; установка параметров показываемой картинки и её названия
 function previewImageLargeInit(ElementToPreview) {
   largeImagePopup.classList.add('popup__large-image');//для прохождения валидации по BEM
-  imagePreview = largeImagePopup.querySelector(".popup__large-image-preview");
-  imageCaption = largeImagePopup.querySelector(".popup__image-title");
   imagePreview.src = ElementToPreview.src;
   imagePreview.alt = ElementToPreview.alt;
   imageCaption.innerText = ElementToPreview.alt;
@@ -98,17 +98,16 @@ function binButtonPress(evt) {
 }
 //обработчик открытия окна просмотра картинки
 function largeImagePress(evt) {
-  openPopup(largeImagePopup);
   previewImageLargeInit(evt.target);
+  openPopup(largeImagePopup);
 }
 //функция добавления на страницу новой карточки; с картинкой и именем (1й и 2й аргумент функции) и обработчиками
-function addNewCard(name,link) {
+function addNewCard(cardData) {
   const elementToAdd = cardElement.content.cloneNode(true);
-  //elementToAdd.querySelector(".elements__card").setAttribute('id', `card${currentCard.id}`);
-  elementToAdd.querySelector(".elements__title").innerText = name;
+  elementToAdd.querySelector(".elements__title").innerText = cardData.name;
   const imagePanel = elementToAdd.querySelector(".elements__image");
-  imagePanel.src = link;
-  imagePanel.alt = name;
+  imagePanel.src = cardData.link;
+  imagePanel.alt = cardData.name;
   imagePanel.addEventListener('click', largeImagePress);
   const likeButton = elementToAdd.querySelector(".elements__like-button")
   likeButton.addEventListener('click', likeButtonPress);
@@ -119,8 +118,8 @@ function addNewCard(name,link) {
 
 //добавление первоначальных карточек "по умолчанию"
 function showInitialContent() {
-  initialCards.forEach((currentCard) => {
-    addNewCard(currentCard.name,currentCard.link);
+  initialCards.forEach((currentCard) => {debugger;
+    addNewCard({'name': currentCard.name,'link': currentCard.link});
   })
 }
 
