@@ -133,14 +133,12 @@ newCardButton.addEventListener('click', function () {
 
 setProfilePopupCloseButton.addEventListener('click', closePopup);
 setProfilePopup.addEventListener('click', closePopupOnClick);
-document.body.addEventListener('keyup', closePopupOnEscape);
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 setProfileFormElement.addEventListener('submit', formSetProfileSubmitHandler);
 //установим значение полей ввода
 newCardPopupCloseButton.addEventListener('click', closePopup);
 newCardPopup.addEventListener('click', closePopupOnClick);
-document.body.addEventListener('keyup', closePopupOnEscape);
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 newCardFormElement.addEventListener('submit', formNewCardSubmitHandler);
