@@ -120,7 +120,7 @@ function addEventsForAddNewCard(elementToAdd,imagePanel){
   return;
 }
 function insertNewCard(elementToAdd,containerElement){
-  containerElement.insertBefore(elementToAdd, containerElement.firstChild);
+  containerElement.prepend(elementToAdd);
   return;
 }
 //функция добавления на страницу новой карточки; с картинкой и именем (1й и 2й аргумент функции) и обработчиками
