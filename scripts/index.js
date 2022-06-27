@@ -22,15 +22,30 @@ const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-
 const imagePreview = largeImagePopup.querySelector(".popup__large-image-preview");
 const imageCaption = largeImagePopup.querySelector(".popup__image-title");
 
-function closePopup(elementPopupToClose) {
+function makePopupInvisible(elementPopupToClose){
   elementPopupToClose.classList.remove('popup_opened');
+}
+function turnOffEventOnEsc(elementPopupToClose){
+  document.body.removeEventListener('keyup', closePopupOnEscape);
+}
+function closePopup(elementPopupToClose) {
+  makePopupInvisible(elementPopupToClose);
+  turnOffEventOnEsc(elementPopupToClose);
+}
+function makePopupVisible(elementPopupToOpen){
+  elementPopupToOpen.classList.add('popup_opened');
+}
+function turnOnEventOnEsc(elementPopupToClose){
+  document.body.addEventListener('keyup', closePopupOnEscape);
 }
 //закрывает переданный в 1м аргументе попап
 function openPopup(elementPopupToOpen) {
-  elementPopupToOpen.classList.add('popup_opened');
+  makePopupVisible(elementPopupToOpen);
+  turnOnEventOnEsc(elementPopupToOpen);
 }
 //обработчик закрытия любого попапа по ескейпу
 function closePopupOnEscape(evt) {
+  console.log('press putton event worked');
   if (evt.key === 'Escape') {
     closePopup(document.querySelector('.popup_opened'));
   }
@@ -58,8 +73,7 @@ function formProfileBoxSubmitHandler(evt) {
 function formNewCardSubmitHandler(evt) {
   evt.preventDefault();
   //добавляем новую карточку
-  elementToAdd = createNewCard({'name': newCardName.value,'link': newCardLink.value});
-  insertNewCard(elementToAdd,cardElementsNode);
+  addNewCard({ 'name': newCardName.value, 'link': newCardLink.value });
   //закрываем попап
   closePopup(newCardPopup);
 }
@@ -76,7 +90,6 @@ function newCardPopupSetInitValues() {
 }
 //попап просмотра увеличенного изображения; установка параметров показываемой картинки и её названия
 function previewImageLargeInit(ElementToPreview) {
-  largeImagePopup.classList.add('popup__large-image');//для прохождения валидации по BEM
   imagePreview.src = ElementToPreview.src;
   imagePreview.alt = ElementToPreview.alt;
   imageCaption.innerText = ElementToPreview.alt;
@@ -102,16 +115,19 @@ function largeImagePress(evt) {
   previewImageLargeInit(evt.target);
   openPopup(largeImagePopup);
 }
-function createCleanNewElementForAddNewCard(){
+//создание новой чистой карточки, которую потом можно будет испльзовать для вставки
+function createCleanNewElementForAddNewCard() {
   return cardElement.content.cloneNode(true);
 }
-function fillElementWithDataForAddNewCard(elementToAdd,cardData,imagePanel){
+//заполнение карточки данными 
+function fillElementWithDataForAddNewCard(elementToAdd, cardData, imagePanel) {
   elementToAdd.querySelector(".elements__title").innerText = cardData.name;
   imagePanel.src = cardData.link;
   imagePanel.alt = cardData.name;
   return;
 }
-function addEventsForAddNewCard(elementToAdd,imagePanel){
+//установка перехватчиков событий для карточек
+function addEventsForAddNewCard(elementToAdd, imagePanel) {
   imagePanel.addEventListener('click', largeImagePress);
   const likeButton = elementToAdd.querySelector(".elements__like-button")
   likeButton.addEventListener('click', likeButtonPress);
@@ -119,24 +135,28 @@ function addEventsForAddNewCard(elementToAdd,imagePanel){
   binButton.addEventListener('click', binButtonPress);
   return;
 }
-function insertNewCard(elementToAdd,containerElement){
+//вставка готовой карточки на страницу
+function insertNewCard(elementToAdd, containerElement) {
   containerElement.prepend(elementToAdd);
   return;
 }
-//функция добавления на страницу новой карточки; с картинкой и именем (1й и 2й аргумент функции) и обработчиками
+//функция создания новой карточки; с картинкой и именем (из объекта-аргумента функции) и обработчиками
 function createNewCard(cardData) {
   const elementToAdd = createCleanNewElementForAddNewCard();
   const imagePanel = elementToAdd.querySelector(".elements__image");
-  fillElementWithDataForAddNewCard(elementToAdd,cardData,imagePanel);
-  addEventsForAddNewCard(elementToAdd,imagePanel);
+  fillElementWithDataForAddNewCard(elementToAdd, cardData, imagePanel);
+  addEventsForAddNewCard(elementToAdd, imagePanel);
   return elementToAdd;
 }
-
+//добавляет новую карточку на страницу в начало, имя и ссылка передаются в объекте - аргумена в полях name и link
+function addNewCard(cardData) {
+  elementToAdd = createNewCard(cardData);
+  insertNewCard(elementToAdd, cardElementsNode);
+}
 //добавление первоначальных карточек "по умолчанию"
 function showInitialContent() {
-  initialCards.forEach((currentCard) => {
-    elementToAdd = createNewCard({'name': currentCard.name,'link': currentCard.link});
-    insertNewCard(elementToAdd,cardElementsNode);
+  initialCards.reverse().forEach((currentCard) => {
+    addNewCard({ 'name': currentCard.name, 'link': currentCard.link });
   })
 }
 
@@ -164,7 +184,6 @@ newCardPopup.addEventListener('click', closePopupOnClick);
 newCardFormElement.addEventListener('submit', formNewCardSubmitHandler);
 largeImagePopupCloseButton.addEventListener('click', closePopupOnButton);
 largeImagePopup.addEventListener('click', closePopupOnClick);
-document.body.addEventListener('keyup', closePopupOnEscape);
 //покажем карточки, которые пока не видимы
 showInitialContent();
 

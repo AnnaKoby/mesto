@@ -8,7 +8,7 @@
 @import url(../blocks/popup/__save-button/popup__save-button.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__input/popup__input.css);
-@import url(../blocks/popup/__large-image/popup__large-image.css);
+@import url(../blocks/popup/_dark_background/popup_dark_background.css);
 @import url(../blocks/popup/__large-image-preview/popup__large-image-preview.css);
 @import url(../blocks/popup/__large-image-border/popup__large-image-border.css);
 @import url(../blocks/popup/__image-title/popup__image-title.css);
