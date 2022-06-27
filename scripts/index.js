@@ -45,7 +45,7 @@ function openPopup(elementPopupToOpen) {
 }
 //обработчик закрытия любого попапа по ескейпу
 function closePopupOnEscape(evt) {
-  console.log('press putton event worked');
+  console.log('press button event worked');
   if (evt.key === 'Escape') {
     closePopup(document.querySelector('.popup_opened'));
   }
