@@ -58,7 +58,8 @@ function formProfileBoxSubmitHandler(evt) {
 function formNewCardSubmitHandler(evt) {
   evt.preventDefault();
   //добавляем новую карточку
-  addNewCard({'name': newCardName.value,'link': newCardLink.value});
+  elementToAdd = createNewCard({'name': newCardName.value,'link': newCardLink.value});
+  insertNewCard(elementToAdd,cardElementsNode);
   //закрываем попап
   closePopup(newCardPopup);
 }
@@ -101,25 +102,41 @@ function largeImagePress(evt) {
   previewImageLargeInit(evt.target);
   openPopup(largeImagePopup);
 }
-//функция добавления на страницу новой карточки; с картинкой и именем (1й и 2й аргумент функции) и обработчиками
-function addNewCard(cardData) {
-  const elementToAdd = cardElement.content.cloneNode(true);
+function createCleanNewElementForAddNewCard(){
+  return cardElement.content.cloneNode(true);
+}
+function fillElementWithDataForAddNewCard(elementToAdd,cardData,imagePanel){
   elementToAdd.querySelector(".elements__title").innerText = cardData.name;
-  const imagePanel = elementToAdd.querySelector(".elements__image");
   imagePanel.src = cardData.link;
   imagePanel.alt = cardData.name;
+  return;
+}
+function addEventsForAddNewCard(elementToAdd,imagePanel){
   imagePanel.addEventListener('click', largeImagePress);
   const likeButton = elementToAdd.querySelector(".elements__like-button")
   likeButton.addEventListener('click', likeButtonPress);
   const binButton = elementToAdd.querySelector(".elements__bin-button");
   binButton.addEventListener('click', binButtonPress);
-  cardElementsNode.insertBefore(elementToAdd, cardElementsNode.firstChild);
+  return;
+}
+function insertNewCard(elementToAdd,containerElement){
+  containerElement.insertBefore(elementToAdd, containerElement.firstChild);
+  return;
+}
+//функция добавления на страницу новой карточки; с картинкой и именем (1й и 2й аргумент функции) и обработчиками
+function createNewCard(cardData) {
+  const elementToAdd = createCleanNewElementForAddNewCard();
+  const imagePanel = elementToAdd.querySelector(".elements__image");
+  fillElementWithDataForAddNewCard(elementToAdd,cardData,imagePanel);
+  addEventsForAddNewCard(elementToAdd,imagePanel);
+  return elementToAdd;
 }
 
 //добавление первоначальных карточек "по умолчанию"
 function showInitialContent() {
-  initialCards.forEach((currentCard) => {debugger;
-    addNewCard({'name': currentCard.name,'link': currentCard.link});
+  initialCards.forEach((currentCard) => {
+    elementToAdd = createNewCard({'name': currentCard.name,'link': currentCard.link});
+    insertNewCard(elementToAdd,cardElementsNode);
   })
 }
 
