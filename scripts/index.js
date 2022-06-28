@@ -4,7 +4,7 @@ const cardElementsNode = document.querySelector('.elements');
 const profileBoxButton = document.querySelector('.profile__pen-button'); // переменная для обращения кнопки "карандаш"
 const profileBoxPopup = document.querySelector('#profile-add'); // переменная для обращения к окну изменения имени пользоваеля
 const profileBoxPopupCloseButton = document.querySelector('.popup__close-button'); // переменная для закрытия окна изменения имени пользователя
-const profileBoxFormElement = document.querySelector('.popup__form'); //переменная для доступа к элементам ввода в окне изменения имени пользователя
+const profileBoxFormElement = profileBoxPopup.querySelector('.popup__form'); //переменная для доступа к элементам ввода в окне изменения имени пользователя
 const profileBoxNameInput = document.querySelector('.popup__input_type_name'); //переменная для доступа к первой строке ввода окна изменения имени пользователя
 const profileBoxJobInput = document.querySelector('.popup__input_type_description'); //переменная для доступа ко второй строке ввода 
 const profileBoxName = document.querySelector('.profile__name'); //переменная для доступа к месту отражения первой строки на странице
@@ -19,8 +19,8 @@ const newCardLink = newCardPopup.querySelector('.popup__input_link');//пере�
 
 const largeImagePopup = document.querySelector('#large-image');//переменная для открытия просмотра картинки
 const largeImagePopupCloseButton = largeImagePopup.querySelector('.popup__close-button');//переменная для закрытия просмотра картинки
-const imagePreview = largeImagePopup.querySelector(".popup__large-image-preview");
-const imageCaption = largeImagePopup.querySelector(".popup__image-title");
+const imagePreview = largeImagePopup.querySelector('.popup__large-image-preview');
+const imageCaption = largeImagePopup.querySelector('.popup__image-title');
 
 function makePopupInvisible(elementPopupToClose){
   elementPopupToClose.classList.remove('popup_opened');
@@ -58,9 +58,9 @@ function closePopupOnClick(evt) {
 }
 //закрытие попапов по крестику
 function closePopupOnButton(evt) {
-  closePopup(evt.target.parentElement.parentElement.parentElement);//во всех попапах крстик на 3й глубине внетки попапа
+  closePopup(evt.target.closest('.popup_opened'));//во всех попапах закрытие по крестику
 }
-//папап с изменением пользователя; Обработчик для сохранения данных пользователя
+//попап с изменением пользователя; Обработчик для сохранения данных пользователя
 function formProfileBoxSubmitHandler(evt) {
   evt.preventDefault();
   //меняю текст
@@ -78,7 +78,7 @@ function formNewCardSubmitHandler(evt) {
   closePopup(newCardPopup);
 }
 
-//папап с изменением пользователя; установка значений полей предыдущими значениями
+//попап с изменением пользователя; установка значений полей предыдущими значениями
 function profileBoxPopupSetInitValues() {
   profileBoxNameInput.value = profileBoxName.textContent;
   profileBoxJobInput.value = profileBoxDescription.textContent;
@@ -108,7 +108,7 @@ function deleteCard(cardElement) {
 }
 //обработчик при нажатии на "урну"
 function binButtonPress(evt) {
-  deleteCard(evt.target.parentElement)
+  deleteCard(evt.target.closest('.elements__card'));
 }
 //обработчик открытия окна просмотра картинки
 function largeImagePress(evt) {
@@ -121,7 +121,7 @@ function createCleanNewElementForAddNewCard() {
 }
 //заполнение карточки данными 
 function fillElementWithDataForAddNewCard(elementToAdd, cardData, imagePanel) {
-  elementToAdd.querySelector(".elements__title").innerText = cardData.name;
+  elementToAdd.querySelector('.elements__title').innerText = cardData.name;
   imagePanel.src = cardData.link;
   imagePanel.alt = cardData.name;
   return;
@@ -129,9 +129,9 @@ function fillElementWithDataForAddNewCard(elementToAdd, cardData, imagePanel) {
 //установка перехватчиков событий для карточек
 function addEventsForAddNewCard(elementToAdd, imagePanel) {
   imagePanel.addEventListener('click', largeImagePress);
-  const likeButton = elementToAdd.querySelector(".elements__like-button")
+  const likeButton = elementToAdd.querySelector('.elements__like-button')
   likeButton.addEventListener('click', likeButtonPress);
-  const binButton = elementToAdd.querySelector(".elements__bin-button");
+  const binButton = elementToAdd.querySelector('.elements__bin-button');
   binButton.addEventListener('click', binButtonPress);
   return;
 }
@@ -143,14 +143,14 @@ function insertNewCard(elementToAdd, containerElement) {
 //функция создания новой карточки; с картинкой и именем (из объекта-аргумента функции) и обработчиками
 function createNewCard(cardData) {
   const elementToAdd = createCleanNewElementForAddNewCard();
-  const imagePanel = elementToAdd.querySelector(".elements__image");
+  const imagePanel = elementToAdd.querySelector('.elements__image');
   fillElementWithDataForAddNewCard(elementToAdd, cardData, imagePanel);
   addEventsForAddNewCard(elementToAdd, imagePanel);
   return elementToAdd;
 }
 //добавляет новую карточку на страницу в начало, имя и ссылка передаются в объекте - аргумена в полях name и link
 function addNewCard(cardData) {
-  elementToAdd = createNewCard(cardData);
+  const elementToAdd = createNewCard(cardData);
   insertNewCard(elementToAdd, cardElementsNode);
 }
 //добавление первоначальных карточек "по умолчанию"
@@ -159,7 +159,6 @@ function showInitialContent() {
     addNewCard({ 'name': currentCard.name, 'link': currentCard.link });
   })
 }
-
 //папап с изменением пользователя; привязка обработчика для открытия попап при нажатии на "карандаш"
 profileBoxButton.addEventListener('click', function () {
   profileBoxPopupSetInitValues();
@@ -186,4 +185,3 @@ largeImagePopupCloseButton.addEventListener('click', closePopupOnButton);
 largeImagePopup.addEventListener('click', closePopupOnClick);
 //покажем карточки, которые пока не видимы
 showInitialContent();
-
